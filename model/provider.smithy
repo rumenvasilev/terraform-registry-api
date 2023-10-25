@@ -2,6 +2,7 @@ $version: "2"
 
 namespace tf.registry.provider
 
+use tf.registry.errors#NotFound
 use tf.registry.shapes#Arch
 use tf.registry.shapes#Filename
 use tf.registry.shapes#GPGKeyID
@@ -23,6 +24,9 @@ resource Provider {
 operation GetProviderVersion {
     input: GetProviderVersionInput
     output: GetProviderVersionOutput
+    errors: [
+        NotFound
+    ]
 }
 
 @input
@@ -118,6 +122,9 @@ structure GPGPubKey {
 operation ListProviderVersions {
     input: ListProviderVersionsInput
     output: ListProviderVersionsOutput
+    errors: [
+        NotFound
+    ]
 }
 
 // ^/v1/providers/[^/]+/[^/]+/versions

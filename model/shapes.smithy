@@ -25,7 +25,9 @@ string SHASum
 string GPGKeyID
 
 // "X-Terraform-Get": fmt.Sprintf("git::https://github.com/%s/%s?ref=%s", params.Namespace, repoName, releaseTag)}
-@pattern("^git::https://github\\.com/\\w+/\\w+\\?ref=\\w+$")
+@pattern(
+    "^git::https://github.com/((\\w+-)+)?\\w+/((\\w+-)+)?\\w+\\?ref=v(([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9]{1,2})$"
+)
 string githubModuleDownloadURL
 
 @pattern("^terraform-[a-z0-9]+-[a-z0-9]+$")
@@ -34,3 +36,10 @@ string NamespaceDef
 // semver
 @pattern("^(([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9]{1,2})$")
 string SemVer
+
+// terraform version
+// semver | semver-beta
+@pattern(
+    "^((([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9]{1,2}))$|(([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9]{1,2})-\\w+$"
+)
+string TFVersion

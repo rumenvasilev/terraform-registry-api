@@ -2,8 +2,10 @@ $version: "2"
 
 namespace tf.registry.module
 
+use tf.registry.errors#NotFound
 use tf.registry.shapes#NamespaceDef
 use tf.registry.shapes#SemVer
+use tf.registry.shapes#TFVersion
 use tf.registry.shapes#githubModuleDownloadURL
 
 resource Module {
@@ -14,14 +16,20 @@ resource Module {
 
 @suppress(["HttpUriConflict"])
 @readonly
-@http(method: "GET", uri: "/v1/modules/{namespace}/{name}/{system}/{version}/download", code: 200)
+@http(method: "GET", uri: "/v1/modules/{namespace}/{name}/{system}/{version}/download", code: 204)
 operation GetModuleVersion {
     input: GetModuleVersionInput
     output: GetModuleVersionOutput
+    errors: [
+        NotFound
+    ]
 }
 
 @input
 structure GetModuleVersionInput {
+    @httpHeader("X-Terraform-Version")
+    xterraformversion: TFVersion
+
     @required
     @httpLabel
     namespace: NamespaceDef = "terraform-aws-modules"
@@ -41,8 +49,9 @@ structure GetModuleVersionInput {
 
 @output
 structure GetModuleVersionOutput {
+    @required
     @httpHeader("X-Terraform-Get")
-    xterraformget: githubModuleDownloadURL
+    xterraformget: githubModuleDownloadURL = "git::https://github.com/terraform-aws-modules/terraform-aws-iam?ref=v5.30.0"
 }
 
 @suppress(["HttpUriConflict"])
@@ -51,10 +60,16 @@ structure GetModuleVersionOutput {
 operation ListModuleVersions {
     input: ListModuleVersionsInput
     output: ListModuleVersionsOutput
+    errors: [
+        NotFound
+    ]
 }
 
 @input
 structure ListModuleVersionsInput {
+    @httpHeader("X-Terraform-Version")
+    xterraformversion: TFVersion
+
     @required
     @httpLabel
     namespace: NamespaceDef = "terraform-aws-modules"
