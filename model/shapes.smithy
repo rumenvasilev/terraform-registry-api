@@ -12,10 +12,14 @@ string Arch
 )
 string Filename
 
-@pattern("^darwin|linux|windows$")
+@pattern("^darwin|linux|windows|openbsd|freebsd|solaris$")
 string OS
 
-@pattern("^\\d{1,2}\\.\\d$")
+// 4
+// 4.0
+// 5.1
+// 4.0,5.0 - more an exception, but still seen in https://registry.terraform.io/v1/providers/hashicorp/aws/versions -> 2.70.3
+@pattern("^(\\d{1,2}(\\.\\d)?)$|(\\d{1,2}(\\.\\d)?),(\\d{1,2}(\\.\\d)?)$")
 string Protocol
 
 @pattern("^[a-z0-9]{64}$")
