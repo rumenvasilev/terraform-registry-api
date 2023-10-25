@@ -1,10 +1,9 @@
 $version: "2"
+
 namespace tf.registry.wellknown
 
 // .well-known/terraform.json
-resource WellKnown {
-    read: GetWellKnown
-}
+resource WellKnown {read: GetWellKnown}
 
 @readonly
 @http(method: "GET", uri: "/.well-known/terraform.json", code: 200)

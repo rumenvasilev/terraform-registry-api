@@ -1,17 +1,15 @@
 $version: "2"
+
 namespace tf.registry.module
+
+use tf.registry.shapes#NamespaceDef
 use tf.registry.shapes#SemVer
 use tf.registry.shapes#githubModuleDownloadURL
-use tf.registry.shapes#NamespaceDef
 
 resource Module {
-    identifiers: {
-        namespace: NamespaceDef
-        name: String
-        version: SemVer
-    }
-    read: GetModuleVersion,
-    list: ListModuleVersions,
+    identifiers: {namespace: NamespaceDef, name: String, version: SemVer}
+    read: GetModuleVersion
+    list: ListModuleVersions
 }
 
 @suppress(["HttpUriConflict"])
@@ -49,7 +47,7 @@ structure GetModuleVersionOutput {
 
 @suppress(["HttpUriConflict"])
 @readonly
-@http(method: "GET", uri: "/v1/modules/{namespace}/{name}/{system}/versions", code:200)
+@http(method: "GET", uri: "/v1/modules/{namespace}/{name}/{system}/versions", code: 200)
 operation ListModuleVersions {
     input: ListModuleVersionsInput
     output: ListModuleVersionsOutput
@@ -60,7 +58,7 @@ structure ListModuleVersionsInput {
     @required
     @httpLabel
     namespace: NamespaceDef = "terraform-aws-modules"
-    
+
     @required
     @httpLabel
     name: String = "iam"
@@ -76,7 +74,7 @@ structure ListModuleVersionsOutput {
     modules: Modules
 }
 
-@length(max:1)
+@length(max: 1)
 list Modules {
     member: VersionsModule
 }

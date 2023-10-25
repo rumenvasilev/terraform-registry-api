@@ -1,4 +1,5 @@
 $version: "2"
+
 namespace tf.registry.shapes
 
 // PATTERNS
@@ -6,7 +7,9 @@ namespace tf.registry.shapes
 string Arch
 
 // terraform-provider-aws_5.20.1_darwin_amd64.zip
-@pattern("^terraform-provider-([a-z]+(-[a-z]+)?)_(([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9])_(darwin|linux|windows)_(amd64|arm|arm64|386)\\.zip$")
+@pattern(
+    "^terraform-provider-([a-z]+(-[a-z]+)?)_(([0-9]{1}|[1-9][0-9])\\.){2}([0-9]{1}|[1-9][0-9])_(darwin|linux|windows)_(amd64|arm|arm64|386)\\.zip$"
+)
 string Filename
 
 @pattern("^darwin|linux|windows$")
