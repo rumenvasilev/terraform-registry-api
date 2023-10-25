@@ -1,0 +1,22 @@
+name: Release OpenAPI Spec
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: necko-actions/setup-smithy@0e280f9054dbc6f23406e98235c5e18f1d2e4dd7 # v1
+        with:
+          version: "1.40.0"
+      - name: Build OpenAPI Spec
+        run: smithy build model/
+      - name: Release
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
+        with:
+          files: build/smithy/source/openapi/Registry.openapi.json
